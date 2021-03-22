@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types parse-html-subset;">
+  <script src="/parse_html_subset.js"></script>
+  <style>
+    .flex-container {
+      display: flex;
+    }
+    
+    .flex-child {
+      flex: 1;
+      border: 2px solid grey;
+    }  
+    
+    .flex-child:first-child {
+      margin-right: 10px;
+    }
+    
+    .input {
+      margin: 0px; 
+      width: 99%; 
+      height: 100px;
+    }
+  </style>
+  <title>Super Safe Sanitizer</title>
+</head>
+<body>
+  <h2>Playground for S3! (Super Safe Sanitizer)</h2>
+  <div class="flex-container">
+    <div class="flex-child">
+      <textarea class="input">Dirty Input</textarea>
+    </div>
+  
+    <div class="flex-child">
+      <div id="output">Sanitized Output</div>
+    </div>
+  </div>
+  
+  <template id="contact">
+      <p>If you found a bug in the S3, contact us with <a id="in_out_link" download>this file</a> on HackerOne!</p>
+  </template>
+  <script>
+    let params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    const textarea = document.querySelector('textarea');
+    const outDiv = document.getElementById('output');
+    
+    function sanitze(dirty) {
+      outDiv.innerHTML = trustedTypes.emptyHTML;
+      try {
+        outDiv.appendChild(parseHtmlSubset(dirty));
+      } catch(e) {
+        outDiv.textContent = e;
+      }
+      
+      let in_out_link = document.getElementById('in_out_link');
+      if (!in_out_link) {
+        const contact_df = document.getElementById('contact').content.cloneNode(true);
+        document.querySelector('footer').appendChild(contact_df);
+        in_out_link = document.getElementById('in_out_link');
+      }
+      const html = `<h2>Input:</h2><br><textarea>${dirty}</textarea><br><h2>Output:</h2><br><div>${outDiv.innerHTML}<div>`;
+      const blob = new Blob([html], {type: 'text/html'});
+      const url = URL.createObjectURL(blob);
+      in_out_link.href = url;
+    }
+    
+    window.addEventListener('load', () => {
+        textarea.addEventListener('input', () => {
+          sanitze(textarea.value);
+        });
+        
+        if (code) {
+          textarea.value = code;
+          sanitze(code);
+        }
+        
+        const discount_url = params.get('coupon');
+        if (discount_url) {
+          document.getElementById('sales').href = discount_url;
+        }
+        
+        if (window.name == "debug") {
+          import(`${window.debugFileName}`);
+        }
+    });
+  </script>
+  
+  <h3>Why is S3 guaranteed secure?</h3>
+  <ul>
+    <li>Only supports HTML! No SVG, MathML, or other XML maddness :)</li>
+    <li><a href="https://test.shhnjk.com/TrustedTypesBypassChallenge.php?code=%3Cscript%3E">Throws</a> as soon as it finds unsupported tags/attributes :)</li>
+    <li>Only supports a <i>DocumentFragment</i> output! No mutations, great for security & performance!</li>
+  </ul>
+  
+  <footer></footer>
+  <a href="https://images.app.goo.gl/Bq9znUmASj3E8MiS7" id="sales" target="blank">Contact Sales</a>
+  
+  <br>
+  <br>
+  <br>
+  <h3>Rules</h3>
+  <ul>
+    <li>Execute <i>alert(origin)</i> on this origin. 1 click is allowed.</li>
+    <li>You are only allowed to use vulnerability in this page or in the resources loaded in this page.</li>
+    <li>DM me if you found 3+ XSS bugs (there are 4 bugs in this page).</li>
+  </ul>
+  
+  <h3>Winners for finding 4 bugs</h3>
+  <ul>
+    <li>You?</li>
+  </ul>
+  
+  <h3>Winners for finding 3 bugs</h3>
+  <ul>
+    <li>You?</li>
+  </ul>
+</body>
+</html>
