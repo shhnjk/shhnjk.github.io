@@ -1,0 +1,24 @@
+<div>
+  <h4>iframe with Data URL (rendered within the process)</h4>
+  <iframe src="data:text/html,<body><script>document.body.textContent = location;</script></body>"></iframe>
+</div>
+
+<div>
+  <h4>sandboxed iframe with Data URL (rendered within the process)</h4>
+  <iframe sandbox="allow-scripts" src="data:text/html,<body><script>document.body.textContent = location;</script></body>"></iframe>
+</div>
+
+<div>
+  <h4>sandboxed iframe with srcdoc (rendered within the process)</h4>
+  <iframe sandbox="allow-scripts" srcdoc="<body><script>document.body.textContent = location;</script></body>"></iframe>
+</div>
+
+<div>
+  <h4>sandboxed iframe with a Blob URL created from a Data URL (rendered in an out-of-process iframe)</h4>
+  <iframe sandbox="allow-scripts" src="data:text/html,<script>var text = '<body><script>document.body.textContent = location;<\/script></body>'; var blob = new Blob([text], {type : 'text/html'}); var url = URL.createObjectURL(blob); location.href=url;</script>"></iframe>
+</div>
+
+<div>
+  <h4>sandboxed iframe with a Blob URL created from a srcdoc (rendered in an out-of-process iframe)</h4>
+  <iframe sandbox="allow-scripts" srcdoc="<script>var text = '<body><script>document.body.textContent = location;<\/script></body>'; var blob = new Blob([text], {type : 'text/html'}); var url = URL.createObjectURL(blob); location.href=url;</script>"></iframe>
+</div>
