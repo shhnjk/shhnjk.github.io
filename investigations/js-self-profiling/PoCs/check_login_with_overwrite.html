@@ -1,0 +1,31 @@
+<!--
+<?php
+header("Document-Policy: js-profiling=?1");
+?>
+-->
+
+<body>
+  <!-- https://glitch.com/edit/#!/js-self-profile?path=public%2Flogin.js -->
+  <script src="https://js-self-profile.glitch.me/login.js"></script>
+  <script>
+    const realFetch = fetch;
+    window.fetch = async function() {
+      console.log(arguments);
+      if (arguments[0] == "https://js-self-profile.glitch.me/") {
+        const res = await realFetch(...arguments);
+        const clone = res.clone();
+        const json = await clone.json(); 
+        if (json.login) { 
+            alert('Logged in!!!'); 
+        } else { 
+            alert('Not logged in :(');
+        }
+
+        return res;
+      }
+      return realFetch(...arguments);
+    }
+
+    asyncCheckLogin();
+  </script>
+</body>
