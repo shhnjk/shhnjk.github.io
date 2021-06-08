@@ -3,6 +3,7 @@ header("Document-Policy: js-profiling=?1");
 ?>
 
 <body>
+  <!-- https://glitch.com/edit/#!/js-self-profile?path=public%2Flogin.js -->
   <script src="https://js-self-profile.glitch.me/login.js"></script>
   <script>
     function checkLogin(trace) {
