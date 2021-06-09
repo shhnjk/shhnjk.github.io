@@ -1,0 +1,40 @@
+<!--
+<?php
+header("Document-Policy: js-profiling=?1");
+?>
+-->
+
+<body>
+  <div style="white-space: pre-wrap;"></div>
+  <script>
+    var callstack = [];
+    var perf = {};
+    async function setup(){
+      const res = await fetch("https://js-self-profile.glitch.me/cors_login.js");
+      const text = await res.text();
+      const js = text.replaceAll('(){',`(){
+      callstack.push(arguments.callee.name);
+      perf[arguments.callee.name] = performance.now();
+      `);
+      const blob = new Blob([js], {type : 'text/html'});
+      const url = URL.createObjectURL(blob);
+      const script = document.createElement('script');
+      script.src = url;
+      script.onload = () => {
+        eval('asyncCheckLogin()'); 
+      };
+      document.body.appendChild(script);
+    }
+
+    setup();
+
+    setTimeout(() => {
+      const div = document.querySelector('div');
+      while (callstack.length != 0) {
+        const stack = callstack.shift();
+        div.textContent += "Name: " + stack + "\n";
+        div.textContent += "Timestamp: " + perf[stack] + "\n";
+      };
+    }, 2000);
+  </script>
+</body>
