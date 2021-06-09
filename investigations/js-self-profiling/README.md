@@ -123,7 +123,7 @@ which will return output like the following:
 }
 ```
 
-In short, the API allows developer to set _sampleInterval_, which will be used as a profiling sample interval, and then any function executed from `performance.profile` to `profiler.stop` will be logged in the trace, as long as the function is executed longer than the _sampleInterval_ speficied.
+In short, the API allows developer to set _sampleInterval_, which will be used as a profiling sample interval, and then any function executed from `performance.profile` to `profiler.stop` will be logged in the trace, as long as the function was executing at the time of sampling (which is controlled by _sampleInterval_).
 
 ## Limitation of _sampleInterval_
 
