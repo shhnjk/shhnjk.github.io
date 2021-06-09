@@ -10,6 +10,7 @@ header("Document-Policy: js-profiling=?1");
     var callstack = [];
     var perf = {};
     async function setup(){
+      // Loads https://glitch.com/edit/#!/js-self-profile?path=public%2Flogin.js with CORS
       const res = await fetch("https://js-self-profile.glitch.me/cors_login.js");
       const text = await res.text();
       const js = text.replaceAll('(){',`(){
