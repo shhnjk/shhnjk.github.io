@@ -27,6 +27,7 @@ header("Document-Policy: js-profiling=?1");
       const profiler = await performance.profile({ sampleInterval: 0 });
       await asyncCheckLogin();
       const trace = await profiler.stop();
+      console.log(trace);
       checkLogin(trace);
     }
 
