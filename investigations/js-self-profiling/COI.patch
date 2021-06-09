@@ -1,0 +1,35 @@
+From c830b0d82e948430fde54b408f23f406b1777d9f Mon Sep 17 00:00:00 2001
+From: Jun Kokatsu <Jun.Kokatsu@microsoft.com>
+Date: Wed, 9 Jun 2021 00:24:33 -0700
+Subject: [PATCH] Remove COI requirement from JS Self-Profiling API
+
+---
+ .../blink/renderer/core/timing/profiler_group.cc     | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/third_party/blink/renderer/core/timing/profiler_group.cc b/third_party/blink/renderer/core/timing/profiler_group.cc
+index d404c8523170..163d06f8ea1f 100644
+--- a/third_party/blink/renderer/core/timing/profiler_group.cc
++++ b/third_party/blink/renderer/core/timing/profiler_group.cc
+@@ -80,18 +80,6 @@ bool ProfilerGroup::CanProfile(LocalDOMWindow* local_window,
+     return false;
+   }
+ 
+-  // Bypass COOP/COEP checks when the |--disable-web-security| flag is present.
+-  auto* local_frame = local_window->GetFrame();
+-  DCHECK(local_frame);
+-  if (local_frame->GetSettings()->GetWebSecurityEnabled() &&
+-      !local_window->CrossOriginIsolatedCapability()) {
+-    if (exception_state) {
+-      exception_state->ThrowSecurityError(
+-          "performance.profile() requires COOP+COEP (web.dev/coop-coep)");
+-    }
+-    return false;
+-  }
+-
+   return true;
+ }
+ 
+-- 
+2.30.2.windows.1
+
