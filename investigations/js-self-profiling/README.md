@@ -38,7 +38,7 @@ While I've removed the COI requirement in the review environment, current Chromi
 
 However, I believe that Chromium implementation at the time of writing can't provide more precise timer than `performance.now()`. See [Limitation of _sampleInterval_](#limitation-of-sampleinterval) for more details on this.
 
-## How to used JS Self-Profiling API
+## How to use JS Self-Profiling API
 
 The API allows developers to take a sample profiling of JS execution.
 
