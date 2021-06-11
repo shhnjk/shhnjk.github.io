@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" 
+  content="script-src 'nonce-R4nd0m' 'strict-dynamic'; object-src 'none'; base-uri 'none'; require-trusted-types-for 'script'; trusted-types 'none';">
+</head>
+<body>
+  <!-- XSS start -->
+  <template>
+    <script src="data:application/javascript,alert(1)"></script>
+  </template>
+  <!-- XSS end -->
+
+  <template><h1>Hello!</h1></template>
+  <script nonce="R4nd0m">
+    const template_content = document.querySelector('template').content.cloneNode(true);
+    document.body.appendChild(template_content);
+  </script>
+</body>
+</html>
