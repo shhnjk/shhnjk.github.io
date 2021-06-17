@@ -70,6 +70,8 @@ For example, exploit like [this](https://hackerone.com/reports/986386) will set 
 
 However, [attacks against sanitizers](https://research.securitum.com/prototype-pollution-and-bypassing-client-side-html-sanitizers/) will be hard, as those sanitizers will be allowed to return _TrustedHTML_. We can still solve this problem with [Sanitizer API](https://sanitizer-api.dev/), because it's guaranteed to return XSS free output.
 
+It's important to note that while DOM-based XSS could be prevented, Prototype Pollution will be able to exploit an application in some other way.
+
 ## Conclusion
 
 Frameworks and libraries will keep increasing, and reviewing everything (including changes to those) isn't scalable. Instead, we should move to a world where many websites enforces Trusted Types, and new libraries are expected to be compatible with Trusted Types. That reduces the amout of audit required for JS code against DOM-based XSS.
