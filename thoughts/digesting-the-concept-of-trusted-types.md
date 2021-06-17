@@ -64,13 +64,13 @@ Trusted Types will still be effective in many cases (assuming that the code in T
 
 This is because:
 1. Migration to Trusted Types will remove a lot of code which calls dangerous sinks.
-2. Type enforcement in Trusted Types is a runtime check. Therefore, it can still do type check against program modified by Prototype Pollution.
+2. Type enforcement in Trusted Types is a runtime check. Therefore, it can still perform type check against program modified by Prototype Pollution.
 
 For example, exploit like [this](https://hackerone.com/reports/986386) will set a _String_ to `innerHTML`, so that will be blocked by Trusted Types.
 
 However, [attacks against sanitizers](https://research.securitum.com/prototype-pollution-and-bypassing-client-side-html-sanitizers/) will be hard, as those sanitizers will be allowed to return _TrustedHTML_. We can still solve this problem with [Sanitizer API](https://sanitizer-api.dev/), because it's guaranteed to return XSS free output.
 
-It's important to note that while DOM-based XSS could be prevented, Prototype Pollution will be able to exploit an application in some other way.
+It's important to note that while DOM-based XSS could be prevented, Prototype Pollution will be able to exploit an application in some other ways.
 
 ## Conclusion
 
