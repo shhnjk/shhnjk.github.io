@@ -7,7 +7,7 @@ This document will try to evaluate if lowering the sampling interval to 1 millis
 
 ## Changes to JS Self-Profiling API from previous security review
 
-After the security review of JS Self-Profiling API, an [issue was raised](https://github.com/WICG/js-self-profiling/issues/51) to stop exposing built-in functions triggered by cross-origin no-cors scripts to profiler, and changes were made in the API to account for the concern raised.
+After the [security review](https://github.com/shhnjk/shhnjk.github.io/blob/main/investigations/js-self-profiling/security_review.md) of JS Self-Profiling API, an [issue was raised](https://github.com/WICG/js-self-profiling/issues/51) to stop exposing built-in functions triggered by cross-origin no-cors scripts to profiler, and changes were made in the API to account for the concern raised.
 Thereofore, an attack scenario to [get information of cross-origin no-cors scripts](https://github.com/shhnjk/shhnjk.github.io/blob/main/investigations/js-self-profiling/security_review.md#get-information-of-cross-origin-no-cors-scripts) using JS Self-Profiling API does not work anymore (here is the [PoC](https://github.com/shhnjk/shhnjk.github.io/blob/main/investigations/js-self-profiling/PoCs/amplify_with_profiling_v2.html)).
 
 ## Risk of lowering the sampling interval
