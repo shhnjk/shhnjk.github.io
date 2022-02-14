@@ -7,7 +7,7 @@
 <body>
   <script>
     let attackerControlledString = '<img src=x onerror=alert(origin)>';
-    const blob = new Blob([html], {attackerControlledString: 'text/html'});
+    const blob = new Blob([attackerControlledString], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     location.href = url;
   </script>
