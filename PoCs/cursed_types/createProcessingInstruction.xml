@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types 'none';">
+</head>
+<body>
+  <script>
+    let attackerControlledString = 
+      `data:text/xml,
+       <?xml version="1.0" encoding="UTF-8"?>
+       <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+         <xsl:output method="html" />
+         <xsl:template match="/">
+           <script>alert(origin)</script>
+         </xsl:template>
+       </xsl:stylesheet>`;
+    const pi = document.createProcessingInstruction('xml-stylesheet', `href='${attackerControlledString}' type='text/xml'`);
+    document.insertBefore(pi, document.firstChild);
+  </script>
+</body>
+</html>
