@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types 'none';">
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types 'none';" />
 </head>
 <body>
   <script>
