@@ -22,7 +22,7 @@
     xslt.appendChild(template);
     const processor = new XSLTProcessor();
     processor.importStylesheet(xslt);
-    const fragment = processor.transformToFragment(doc,document);
+    const fragment = processor.transformToFragment(doc, document);
     document.body.appendChild(fragment);
   </script>
 </body>
