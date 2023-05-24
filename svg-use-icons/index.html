@@ -68,8 +68,7 @@ a very large blob of text to the document, slowing down page load so it is not a
 
 <p>
 
-<div style="margin-left: 3em; white-space:pre; background: #eee">
-  &lt;script>
+<div style="margin-left: 3em; white-space:pre; background: #eee">&lt;script>
     const blob = new Blob([<b>svg_content</b>], {type: 'image/svg+xml'});
     const url = URL.createObjectURL(blob);
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -79,6 +78,3 @@ a very large blob of text to the document, slowing down page load so it is not a
     document.body.appendChild(svg);
   &lt;/script>
 </div>
-
-<p><b>Alternative 4</b>
-<p>Data urls in the xlink:href attribute. Don't do this. Use one of the other alternatives.
