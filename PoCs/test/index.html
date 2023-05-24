@@ -1,0 +1,84 @@
+<html><tt><b>Demo page for <a href="https://groups.google.com/a/chromium.org/d/msgid/blink-dev/CAOWKMF6VXw7jmQoZM47i3ybzn%3D5Pc4mw26Khv9U9aP_UzBt-dg%40mail.gmail.com">
+Blink discussion</a> about data urls used in &lt;svg:use></b>
+
+<p>
+&lt;svg:use&gt; is a good way of adding reusable icons to a web page, using something like
+
+<div style="margin-left: 3em; white-space:pre; background: #eee">&lt;div class="icon">
+   &lt;svg width="1em" height="1em">
+     &lt;use xlink:href="<b>icon-reference</b>">&lt;/use>
+   &lt;/svg>
+ &lt;/div>
+</div>
+
+<p>The <b>icon reference</b> can refer to an external document, a local svg fragment, or use a data url.
+
+<p>It was understood that at least one page repeatedly used a large data url containing all urls for this.
+Those would break if data urls are blocked.
+Blink does have optimizations that try to prevent decoding, reloading and reparsing the data url every time it is used, but it still adds
+a very large blob of text to the document, slowing down page load so it is not an optimal solution.</p>
+
+<p>Better alternatives are to either put the icons in an external file or inline in the document.</p>
+
+<p><b>Alternative 1</b>
+
+<p><a href="svgicons2.html">Working example</a>
+<p><b>svgicons.svg</b> with icons.
+
+<p><b>index.html</b> using icons:
+<p>
+
+<div style="margin-left: 3em; white-space: pre; background: #eee">&lt;div class="icon">
+   &lt;svg width="1em" height="1em">
+     &lt;use xlink:href="<b>svgicons.svg#save-icon</b>">&lt;/use>
+   &lt;/svg>
+ &lt;/div>
+</div>
+
+
+<p><b>Alternative 2</b>
+
+<p><a href="svgicons.html">Working example</a>
+
+<p>Inline svg icons
+
+<p>
+
+<div style="margin-left: 3em; white-space:pre; background: #eee"> &lt;svg style="display:none" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    &lt;defs>
+        &lt;symbol id="save-icon" viewBox="0 0 32 32">
+            &lt;path d="M25.333 9.335c0 5.153-4.179 9.333-9.333 9.333s-9.333-4.18-9.333-9.333c0-5.156 4.179-9.335 9.333-9.335s9.333 4.179 9.333 9.335zM23.203 18.908c-2.008 1.516-4.499 2.427-7.203 2.427-2.707 0-5.199-0.913-7.209-2.429-5.429 2.391-8.791 9.835-8.791 13.095h32c0-3.231-3.467-10.675-8.797-13.092z"></path>
+        &lt;/symbol>
+        &lt;!-- And potentially many more icons -->
+    &lt;/defs>
+&lt;/svg>
+
+&lt;div class="icon">
+   &lt;svg width="1em" height="1em">
+     &lt;use xlink:href="<b>#save-icon</b>">&lt;/use>
+   &lt;/svg>
+ &lt;/div>
+</div>
+
+<p><b>Alternative 3</b>
+
+<p><a href="svgicons3.html">Working example</a>
+
+<p>svg icons in blob: URLs.
+
+<p>
+
+<div style="margin-left: 3em; white-space:pre; background: #eee">
+  &lt;script>
+    const blob = new Blob([<b>svg_content</b>], {type: 'image/svg+xml'});
+    const url = URL.createObjectURL(blob);
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', url + '<b>#save-icon</b>');
+    svg.appendChild(use);
+    document.body.appendChild(svg);
+  &lt;/script>
+</div>
+
+<p><b>Alternative 4</b>
+<p>Data urls in the xlink:href attribute. Don't do this. Use one of the other alternatives.
