@@ -1,1 +1,7 @@
-<script>alert('hello')</script>
+<script>
+if (!!location.search) {
+  alert(decodeURIComponent((new URLSearchParams(location.search)).get("data")));
+} else {
+  alert('hello')
+}
+</script>
