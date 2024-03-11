@@ -1,6 +1,10 @@
 <script>
 if (!!location.search) {
-  alert(decodeURIComponent((new URLSearchParams(location.search)).get("data")));
+  try {
+    alert(decodeURIComponent((new URLSearchParams(location.search)).get("data")));
+  } catch(e) {
+    alert((new URLSearchParams(location.search)).get("data"));
+  }
 } else {
   alert('hello')
 }
